@@ -2,20 +2,26 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-unsigned int Sys_Milliseconds (void)
+static unsigned int GetMilliseconds()
 {
 	struct timeval	tp;
-	static int		secbase;
-	static int		curtime;
 
 	gettimeofday(&tp, NULL);
 
-	if (!secbase)
+	return (tp.tv_sec * 1000) + (tp.tv_usec / 1000); 
+}
+
+unsigned int Sys_Milliseconds (void)
+{
+	static unsigned int basetime;
+	static unsigned int curtime;
+
+	if (!basetime)
 	{
-		secbase = tp.tv_sec;
+		basetime = GetMilliseconds();
 	}
 
-	curtime = (tp.tv_sec - secbase) * 1000 + tp.tv_usec / 1000;
+	curtime = GetMilliseconds() - basetime;
 
 	return curtime;
 }
@@ -32,8 +38,8 @@ void Sys_Sleep(unsigned int msecs)
 
 unsigned int Sys_Milliseconds(void)
 {
-	static int basetime;
-	static int curtime;
+	static unsigned int basetime;
+	static unsigned int curtime;
 
 	if(!basetime)
 	{
