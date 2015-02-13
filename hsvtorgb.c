@@ -22,7 +22,7 @@ static void HSVToRGB(float rgb[3], float h, float s, float v)
 	}
 
 	rgb[0] = r;
-	rgb[1] = b;
-	rgb[2] = g;
+	rgb[1] = g;
+	rgb[2] = b;
 }
 
