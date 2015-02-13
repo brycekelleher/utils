@@ -22,11 +22,6 @@ static float Clamp(float x, float min, float max)
 	return x;
 }
 
-static float Lerp(float t, float a, float b)
-{
-	return ((1 - t) * a) + (t * b);
-}
-
 static float Step(float x)
 {
 	return (x < 0.0f ? 0.0f : 1.0f);
@@ -52,6 +47,16 @@ static float SmoothStepX4(float x)
 	return SmoothStepX2(SmoothStepX2(x));
 }
 
+static float SmootherStep(float x)
+{
+	return x * x * x * (x * ( x * 6 - 15) + 10);
+}
+
+static float CosineStep(float x)
+{
+	return 0.5f - 0.5f * cos(PI * t);
+}
+
 static float CosWindow(float x, float width)
 {
 	x  = PI * (1.0f / width) * x;
@@ -70,3 +75,19 @@ static float SinPulse(float x, float width)
 	return sinf(x);
 }
 
+static float Lerp(float t, float a, float b)
+{
+	return ((1 - t) * a) + (t * b);
+}
+
+static float Cerp(float t, float a, float b)
+{
+	t = CosineStep(t);
+	return Lerp(t, a, b);
+}
+
+static float Serp(float t, float a, float b)
+{
+	t = SmoothStep(t);
+	return Lerp(t, a, b);
+}
