@@ -99,3 +99,10 @@ static float Impulse( float k, float x )
     float h = k * x;
     return h * expf(1.0 - h);
 }
+
+// power curve maps a, b to the range 0, 1
+float PowerCurve( float x, float a, float b )
+{
+    float k = pow(a+b,a+b) / (pow(a,a)*pow(b,b));
+    return k * pow( x, a ) * pow( 1.0-x, b );
+}
