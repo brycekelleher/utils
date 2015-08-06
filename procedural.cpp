@@ -57,9 +57,10 @@ static float CosineStep(float x)
 	return 0.5f - 0.5f * cos(PI * t);
 }
 
-static float CosWindow(float x, float width)
+// cosine window of width 'w'
+static float CosWindow(float x, float w)
 {
-	x  = PI * (1.0f / width) * x;
+	x  = PI * (1.0f / w) * x;
 
 	x = Clamp(x, -PI, PI);
 
@@ -90,4 +91,18 @@ static float Serp(float t, float a, float b)
 {
 	t = SmoothStep(t);
 	return Lerp(t, a, b);
+}
+
+// generate an impulse that decays toward 0. 'k' controls the width, the maximum occurs at 1/k
+static float Impulse( float k, float x )
+{
+    float h = k * x;
+    return h * expf(1.0 - h);
+}
+
+// power curve maps a, b to the range 0, 1
+float PowerCurve( float x, float a, float b )
+{
+    float k = pow(a+b,a+b) / (pow(a,a)*pow(b,b));
+    return k * pow( x, a ) * pow( 1.0-x, b );
 }
