@@ -35,6 +35,35 @@ static void DrawTexturedQuad()
 	glEnd();
 }
 
+// draw a 3d wireframe bounding box
+static void DrawBounds(float min[3], float max[3])
+{
+	glBegin(GL_LINE_LOOP);
+	glVertex3f(min[0], min[1], min[2]);
+	glVertex3f(max[0], min[1], min[2]);
+	glVertex3f(max[0], max[1], min[2]);
+	glVertex3f(min[0], max[1], min[2]);
+	glEnd();
+
+	glBegin(GL_LINE_LOOP);
+	glVertex3f(min[0], min[1], max[2]);
+	glVertex3f(max[0], min[1], max[2]);
+	glVertex3f(max[0], max[1], max[2]);
+	glVertex3f(min[0], max[1], max[2]);
+	glEnd();
+
+	glBegin(GL_LINES);
+	glVertex3f(min[0], min[1], min[2]);
+	glVertex3f(min[0], min[1], max[2]);
+	glVertex3f(max[0], min[1], min[2]);
+	glVertex3f(max[0], min[1], max[2]);
+	glVertex3f(max[0], max[1], min[2]);
+	glVertex3f(max[0], max[1], max[2]);
+	glVertex3f(min[0], max[1], min[2]);
+	glVertex3f(min[0], max[1], max[2]);
+	glEnd();
+}
+
 static GLint GetCompileStatus(const GLuint obj)
 {
         GLint param;
