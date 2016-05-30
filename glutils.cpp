@@ -64,6 +64,36 @@ static void DrawBounds(float min[3], float max[3])
 	glEnd();
 }
 
+static void DrawVector(float origin[3], float dir[3])
+{
+	float s = 2.0f;
+
+	glBegin(GL_LINES);
+	{
+		glVertex3f(origin[0], origin[1], origin[2]);
+		glVertex3f(s * dir[0] + origin[0], s * dir[1] + origin[1], s * dir[2] + origin[2]);
+	}
+	glEnd();
+}
+
+static void DrawMatrix(float matrix[4][4])
+{
+	float vectors[4][3] =
+	{
+		{ matrix[0][0], matrix[1][0], matrix[2][0] },
+		{ matrix[0][1], matrix[1][1], matrix[2][1] },
+		{ matrix[0][2], matrix[1][2], matrix[2][2] },
+		{ matrix[0][3], matrix[1][3], matrix[2][3] },
+	};
+
+	glColor3f(1, 0, 0);
+	DrawVector(vectors[3], vectors[0]);
+	glColor3f(0, 1, 0);
+	DrawVector(vectors[3], vectors[1]);
+	glColor3f(0, 0, 1);
+	DrawVector(vectors[3], vectors[2]);
+}
+
 static GLint GetCompileStatus(const GLuint obj)
 {
         GLint param;
