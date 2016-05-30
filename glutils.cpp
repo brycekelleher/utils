@@ -94,6 +94,26 @@ static void DrawMatrix(float matrix[4][4])
 	DrawVector(vectors[3], vectors[2]);
 }
 
+// clip is usually the modelviewproj matrix
+void TransformModelToWindow(float vs[2], float clip[4][4], float renderw, float renderh, float vm[3])
+{
+	float vc[4];
+
+	// transform to clip space
+	vc[0] = (vm[0] * clip[0][0]) + (vm[1] * clip[0][1]) + (vm[2] * clip[0][2]) + clip[0][3];
+	vc[1] = (vm[0] * clip[1][0]) + (vm[1] * clip[1][1]) + (vm[2] * clip[1][2]) + clip[1][3];
+	vc[2] = (vm[0] * clip[2][0]) + (vm[1] * clip[2][1]) + (vm[2] * clip[2][2]) + clip[2][3];
+	vc[3] = (vm[0] * clip[3][0]) + (vm[1] * clip[3][1]) + (vm[2] * clip[3][2]) + clip[3][3];
+
+	// transform to normalized coordinates
+	vs[0] = vc[0] / vc[3];
+	vs[1] = vc[1] / vc[3];
+
+	// transform to window coordinates
+	vs[0] = 0.5f * (1.0f + vs[0]) * renderw;
+	vs[1] = 0.5f * (1.0f + vs[1]) * renderh;
+}
+
 static GLint GetCompileStatus(const GLuint obj)
 {
         GLint param;
