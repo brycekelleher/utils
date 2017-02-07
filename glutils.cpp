@@ -136,7 +136,7 @@ static GLint GetCompileStatus(const GLuint obj)
 static GLint GetLinkStatus(const GLuint obj)
 {
         GLint param;
-        glGetShaderiv(obj, GL_LINK_STATUS, &param);
+        glGetProgramiv(obj, GL_LINK_STATUS, &param);
 
         return param;
 }
