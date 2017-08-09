@@ -64,3 +64,13 @@ unsigned int hash_djb(void *data, int numbytes)
 	return hash;
 }
 
+unsigned long hash_sdbm(const char *str)
+{
+	unsigned int hash = 0;
+        int c;
+
+        while ((c = *str++))
+                hash = c + (hash << 6) + (hash << 16) - hash;
+
+        return hash;
+}
